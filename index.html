@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>WEATHER</title>
+</head>
+
+<body>
+  <main id="container">
+    <div class="wrapper"></div>
+    <form action="">
+      <input type="text" name="city" id="search-input" placeholder="Name of city, country" autocomplete="off">
+      <button type="submit" id="search-btn">Search</button>
+    </form>
+    
+    <div id="weather-wrapper">
+      <p id="time">05:35</p>
+      <p id="day">Monday, 25 May</p>
+
+      <h1 id="temp">81°<span id="deg">C</span></h1>
+      <p id="description">Thunderstorm</p>
+
+      <div id="weather-details">
+        <div id="extra-details">
+          
+        </div>
+
+        <div id="high-low">
+          <img src="" alt="" id="icon" class="icon">
+        </div> 
+      </div>
+      
+      <h2 id="location">Lagos, NG</h2>
+    </div>
+  </main>
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
