@@ -29,41 +29,61 @@ setInterval(() => {
 
 
 const API_KEY = 'cfcb7de2195d7a5a1b158f6560eaf532';
-searchBtn.addEventListener('click', function(e) {
-  
-  e.preventDefault;
 
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=`+searchInput.value+`&appid=${API_KEY}`).then(res => res.json()).then(data => {
+// use search bar
+searchBtn.addEventListener('click', (e)=> {
+  e.preventDefault();
+  getWeather(searchInput.value);
+  searchInput.value='';
+});
 
+const getWeather=async (city)=> {
+  try {
+    const response= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`);
 
-      console.log(data)
-      showSearchData(data);
-    });
-})
+    const weatherData= await response.json();
 
-function showSearchData(data) {
-  let {humidity, pressure} = data.main;
-  let {sunrise, sunset} = data.sys;
+    console.log(weatherData);
+    let {humidity, pressure} = weatherData.main;
+    let {sunrise, sunset} = weatherData.sys;
 
-  descriptionEl.innerHTML = data.weather[0].description;
+    descriptionEl.innerHTML = weatherData.weather[0].description;
 
-  tempEl.innerHTML = Math.round(data.main.temp) + '°' + `<span id="deg">C</span>`;
+    tempEl.innerHTML = Math.round(weatherData.main.temp) + '°' + `<span id="deg">C</span>`;
 
-  extraDetails.innerHTML = 
-  `
-  <p id="humidity">Humidity:&nbsp;<span>${humidity}%</span></p>
-  <p id="pressure">Pressure:&nbsp;<span>${pressure}</span></p>
-  <p id="sunrise">Sunrise:&nbsp;<span>${window.moment(sunrise*1000).format('HH:mm a')}</span></p>
-  <p id="sunset">Sunset:&nbsp;<span>${window.moment(sunset*1000).format('HH:mm a')}</span></p>
-  `;
+    extraDetails.innerHTML = 
+    `
+    <p id="humidity">Humidity:&nbsp;<span>${humidity}%</span></p>
+    <p id="pressure">Pressure:&nbsp;<span>${pressure}</span></p>
+    <p id="sunrise">Sunrise:&nbsp;<span>${window.moment(sunrise*1000).format('HH:mm a')}</span></p>
+    <p id="sunset">Sunset:&nbsp;<span>${window.moment(sunset*1000).format('HH:mm a')}</span></p>
+    `;
 
-  locationEl.innerHTML = data.name + ', ' + data.sys.country;
+    locationEl.innerHTML = weatherData.name + ', ' + weatherData.sys.country;
+
+    // Set location and add icons and background
+
+    let latitude = coord.lat;
+    let longitude = coord.lon;
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`).then(res => res.json()).then(data => {
+
+        // console.log(data)
+        showLocationData(data);
+      });
+
+  }
+  catch(error)
+  {
+      return 'city not found';
+  }
 }
 
 
 // Get location
-getLocation();
-function getLocation() {
+// getLocation();
+window.addEventListener("load", () => {
+
   if (navigator.geolocation) {
 
     navigator.geolocation.getCurrentPosition((position) => {
@@ -83,13 +103,14 @@ function getLocation() {
         // console.log(data)
         showLocationData(data);
       });
+
       
     });
 
   } else {
     alert('Location is not supported by your browser.');
   }
-}
+})
 
 let extraDetails = document.getElementById('extra-details');
 
@@ -139,3 +160,36 @@ function showLocationData(data) {
     container.style.backgroundImage = `url('./img/clouds.jpg')`
   }
 }
+
+
+// searchBtn.addEventListener('click', function(e) {
+  
+//   e.preventDefault;
+
+//   fetch(`https://api.openweathermap.org/data/2.5/weather?q=`+searchInput.value+`&appid=${API_KEY}`).then(res => res.json()).then(data => {
+
+
+//       console.log(data)
+//       showSearchData(data);
+//     });
+// })
+
+// function showSearchData(data) {
+
+//   let {humidity, pressure} = data.main;
+//   let {sunrise, sunset} = data.sys;
+
+//   descriptionEl.innerHTML = data.weather[0].description;
+
+//   tempEl.innerHTML = Math.round(data.main.temp) + '°' + `<span id="deg">C</span>`;
+
+//   extraDetails.innerHTML = 
+//   `
+//   <p id="humidity">Humidity:&nbsp;<span>${humidity}%</span></p>
+//   <p id="pressure">Pressure:&nbsp;<span>${pressure}</span></p>
+//   <p id="sunrise">Sunrise:&nbsp;<span>${window.moment(sunrise*1000).format('HH:mm a')}</span></p>
+//   <p id="sunset">Sunset:&nbsp;<span>${window.moment(sunset*1000).format('HH:mm a')}</span></p>
+//   `;
+
+//   locationEl.innerHTML = data.name + ', ' + data.sys.country;
+// }
