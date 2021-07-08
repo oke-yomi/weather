@@ -39,7 +39,7 @@ searchBtn.addEventListener('click', (e)=> {
 
 const getWeather=async (city)=> {
   try {
-    const response= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`);
+    const response= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
 
     const weatherData= await response.json();
 
@@ -131,6 +131,10 @@ function showWeatherData(data) {
   `;
 
   locationEl.innerHTML = data.timezone;
+
+  if(sunset == true) {
+    container.style.backgroundImage = `url('./img/rain.jpg')`
+  }
 }
 
 function showLocationData(data) {
