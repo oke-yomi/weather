@@ -132,9 +132,6 @@ function showWeatherData(data) {
 
   locationEl.innerHTML = data.timezone;
 
-  if(sunset == true) {
-    container.style.backgroundImage = `url('./img/rain.jpg')`
-  }
 }
 
 function showLocationData(data) {
@@ -164,36 +161,3 @@ function showLocationData(data) {
     container.style.backgroundImage = `url('./img/clouds.jpg')`
   }
 }
-
-
-// searchBtn.addEventListener('click', function(e) {
-  
-//   e.preventDefault;
-
-//   fetch(`https://api.openweathermap.org/data/2.5/weather?q=`+searchInput.value+`&appid=${API_KEY}`).then(res => res.json()).then(data => {
-
-
-//       console.log(data)
-//       showSearchData(data);
-//     });
-// })
-
-// function showSearchData(data) {
-
-//   let {humidity, pressure} = data.main;
-//   let {sunrise, sunset} = data.sys;
-
-//   descriptionEl.innerHTML = data.weather[0].description;
-
-//   tempEl.innerHTML = Math.round(data.main.temp) + '°' + `<span id="deg">C</span>`;
-
-//   extraDetails.innerHTML = 
-//   `
-//   <p id="humidity">Humidity:&nbsp;<span>${humidity}%</span></p>
-//   <p id="pressure">Pressure:&nbsp;<span>${pressure}</span></p>
-//   <p id="sunrise">Sunrise:&nbsp;<span>${window.moment(sunrise*1000).format('HH:mm a')}</span></p>
-//   <p id="sunset">Sunset:&nbsp;<span>${window.moment(sunset*1000).format('HH:mm a')}</span></p>
-//   `;
-
-//   locationEl.innerHTML = data.name + ', ' + data.sys.country;
-// }
