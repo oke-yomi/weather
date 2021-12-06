@@ -10,10 +10,11 @@
 body {
   max-width: 1300px;
   font-family: 'Roboto', sans-serif;
-  color: #f4fa33;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f4f4f4;
 }
 
 
