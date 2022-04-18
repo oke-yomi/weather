@@ -1,47 +1,21 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Upload Website
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+    - main
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  deploy:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: action-upload-to-s3
-        # You may pin to the exact commit or the version.
-        # uses: wixplosives/action-upload-to-s3@33334d52cd7938cad633ec4a709e5cc971e62b7f
-        uses: wixplosives/action-upload-to-s3@v10
-        with:
-          # AWS Access key id (short one)
-          accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # AWS Secret access key  (long one)
-          secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # bucket name
-          awsBucket: ${{ secrets.AWS_S3_BUCKET }}
-          # subfolder in bucket to upload data to
-          # s3Subfolder: /
-          # sourcefolder to upload
-          sourceFolder: .
-          # tags to set for uploaded files "Business Unit=core3&gitref=someverylongref"
-          # tags:
-          #  Name of the virtual project to create link.Usefull for creating latest version links.
-          # publishAsVirtualProject: # optional
-          # # file in s3Subfolder to upload
-          # specificFile: # optional
+    - uses: actions/checkout@master
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete --exclude '.git*/*'
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
